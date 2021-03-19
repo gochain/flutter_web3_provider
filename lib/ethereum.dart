@@ -64,4 +64,4 @@ class RequestParams {
 }
 
 @JS("JSON.stringify")
-external String stringify(obj);
+external String stringify(dynamic obj);
