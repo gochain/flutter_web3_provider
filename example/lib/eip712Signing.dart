@@ -50,12 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  //Currently values have been hardcoded. Can be changed accordingly.
   var nonce = 0;
   var spender = "0xD7ACd2a9FD159E69Bb102A1ca21C9a3e3A5F771B";
-  //Defining DataStructures
 
-  //Defining EIP712Domain DataType
   var _eip712DomainType = [
     {
       "name": "name",
@@ -74,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
       "type": "address",
     },
   ];
-  //Defining PermitType DataType
 
   var _permitType = [
     {
@@ -89,25 +85,26 @@ class _MyHomePageState extends State<MyHomePage> {
       "name": "nonce",
       "type": "uint256",
     },
+    {
+      "name": "allowance",
+      "type": "uint256",
+    },
   ];
-
-  //Defining EIP712Domain Data
 
   var _eip712Domain = {
     "name": "Dai Stablecoin",
     "version": "1",
     "chainId": 42,
-    "verifyingContract": "0x358AA13c52544ECCEF6B0ADD0f801012ADAD5eE3",
+    "verifyingContract": "0xaE036c65C649172b43ef7156b009c6221B596B8b",
   };
 
   Future<void> makeSigningRequest() async {
-    //message is data for Permit datatype
     var message = {
       "holder": selectedAddress,
       "spender": spender,
       "nonce": nonce,
+      "allowance": 20,
     };
-
     var typedData = jsonEncode({
       "types": {
         "EIP712Domain": _eip712DomainType,
@@ -120,11 +117,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     print(typedData);
 
-    //Signing message
     String signature = await promiseToFuture(ethereum.request(RequestParams(
         method: 'eth_signTypedData_v3', params: [selectedAddress, typedData])));
     print(signature);
-    String r = "0x" + signature.substring(0, 66);
+    String r = signature.substring(0, 66);
     String s = "0x" + signature.substring(66, 130);
     String vHexa = "0x" + signature.substring(130, 132);
     String v = int.parse(vHexa).toString();
@@ -132,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
     print(r);
     print(s);
     print(v);
-    // the valuse of r, s, v can be passed into below contract and be verified.
   }
 
   @override
@@ -148,6 +143,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+
+
 // contract EIP712Verify{
         
 //     uint chainId_ = 42;
@@ -161,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     
                                         
 //     //HERE                                   
-//     bytes32 public constant PERMIT_TYPEHASH = keccak256("Permit(address holder,address spender,uint256 nonce)");
+//     bytes32 public constant PERMIT_TYPEHASH = keccak256("Permit(address holder,address spender,uint256 nonce,uint256 allowance)");
 //     // bytes32 public constant PERMIT_TYPEHASH = 0xea2aa0a1be11a07ed86d755c93467f4f82362b452371d1ba94d1715123511acb;
 //     mapping (address => uint) public nonces;
 
@@ -171,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //     uint256 public totalSupply;
 //     //HERE
 //     // --- Approve by signature ---
-//     function permit(address holder, address spender, uint256 nonce,
+//     function permit(address holder, address spender, uint256 nonce, uint allowance,
 //                      uint8 v, bytes32 r, bytes32 s) public view returns (address)
 //     {
 //         bytes32 digest =
@@ -181,7 +178,9 @@ class _MyHomePageState extends State<MyHomePage> {
 //                 keccak256(abi.encode(PERMIT_TYPEHASH,
 //                                      holder,
 //                                      spender,
-//                                      nonce))
+//                                      nonce, 
+//                                      allowance
+//                                      ))
 //         ));
 
 //         require(holder != address(0), "Dai/invalid-address-0");
