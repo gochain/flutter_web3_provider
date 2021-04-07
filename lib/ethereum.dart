@@ -9,6 +9,7 @@ external Ethereum? get ethereum;
 @JS("BinanceChain")
 external Ethereum? get binanceChain;
 
+@Deprecated('web3')
 @JS("web3")
 external Ethereum? get web3;
 
@@ -20,6 +21,7 @@ class Ethereum {
   @JS("isConnected")
   external bool isConnected();
 
+  @Deprecated('selectedAddress')
   @JS("selectedAddress")
   external String get selectedAddress;
 
