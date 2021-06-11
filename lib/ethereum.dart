@@ -68,6 +68,32 @@ external String stringify(dynamic obj);
 
 @JS()
 @anonymous
+class WatchAssetParameters {
+  external String get type;
+
+  external WatchAssetOptions get options;
+
+  external factory WatchAssetParameters(
+      {required String type, required WatchAssetOptions options});
+}
+
+@JS()
+@anonymous
+class WatchAssetOptions {
+  external String get address;
+
+  external String? get symbol;
+
+  external int? get decimals;
+
+  external String? get image;
+
+  external factory WatchAssetOptions(
+      {required String address, String? symbol, int? decimals, String? image});
+}
+
+@JS()
+@anonymous
 class CurrencyParams {
   external String get name;
 
