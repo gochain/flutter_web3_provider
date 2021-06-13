@@ -82,14 +82,18 @@ class WatchAssetParameters {
 class WatchAssetOptions {
   external String get address;
 
-  external String? get symbol;
+  external String get symbol;
 
-  external int? get decimals;
+  external int get decimals;
 
   external String? get image;
 
-  external factory WatchAssetOptions(
-      {required String address, String? symbol, int? decimals, String? image});
+  external factory WatchAssetOptions({
+    required String address,
+    required String symbol,
+    required int decimals,
+    String? image,
+  });
 }
 
 @JS()
