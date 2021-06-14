@@ -61,14 +61,44 @@ class Ethereum {
 class RequestParams {
   external String get method;
 
-  external List<dynamic> get params;
+  external dynamic get params;
 
   // Must have an unnamed factory constructor with named arguments.
-  external factory RequestParams({String? method, List<dynamic>? params});
+  external factory RequestParams({String? method, dynamic params});
 }
 
 @JS("JSON.stringify")
 external String stringify(dynamic obj);
+
+@JS()
+@anonymous
+class WatchAssetParameters {
+  external String get type;
+
+  external WatchAssetOptions get options;
+
+  external factory WatchAssetParameters(
+      {required String type, required WatchAssetOptions options});
+}
+
+@JS()
+@anonymous
+class WatchAssetOptions {
+  external String get address;
+
+  external String get symbol;
+
+  external int get decimals;
+
+  external String? get image;
+
+  external factory WatchAssetOptions({
+    required String address,
+    required String symbol,
+    required int decimals,
+    String? image,
+  });
+}
 
 @JS()
 @anonymous
