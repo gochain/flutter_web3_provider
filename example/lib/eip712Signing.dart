@@ -143,10 +143,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
-
 // contract EIP712Verify{
-        
+
 //     uint chainId_ = 42;
 //     bytes32 public DOMAIN_SEPARATOR =   keccak256(abi.encode(
 //                                         keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
@@ -155,14 +153,12 @@ class _MyHomePageState extends State<MyHomePage> {
 //                                         chainId_,
 //                                         address(this)
 //                                     ));
-                                    
-                                        
-//     //HERE                                   
+
+//     //HERE
 //     bytes32 public constant PERMIT_TYPEHASH = keccak256("Permit(address holder,address spender,uint256 nonce,uint256 allowance)");
 //     // bytes32 public constant PERMIT_TYPEHASH = 0xea2aa0a1be11a07ed86d755c93467f4f82362b452371d1ba94d1715123511acb;
 //     mapping (address => uint) public nonces;
 
-        
 //     string  public constant name     = "Dai Stablecoin";
 //     string  public constant version  = "1";
 //     uint256 public totalSupply;
@@ -178,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //                 keccak256(abi.encode(PERMIT_TYPEHASH,
 //                                      holder,
 //                                      spender,
-//                                      nonce, 
+//                                      nonce,
 //                                      allowance
 //                                      ))
 //         ));

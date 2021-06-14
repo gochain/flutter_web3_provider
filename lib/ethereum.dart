@@ -3,12 +3,15 @@ library ethereum;
 
 import 'package:js/js.dart';
 
-// @JS()
+@JS("ethereum")
 external Ethereum? get ethereum;
 
-// LEGACY
-// @JS("web3")
-// external Ethereum get web3Legacy;
+@JS("BinanceChain")
+external Ethereum? get binanceChain;
+
+@Deprecated('web3')
+@JS("web3")
+external Ethereum? get web3;
 
 @JS("")
 class Ethereum {
@@ -18,6 +21,7 @@ class Ethereum {
   @JS("isConnected")
   external bool isConnected();
 
+  @Deprecated('selectedAddress')
   @JS("selectedAddress")
   external String get selectedAddress;
 
@@ -38,7 +42,7 @@ class Ethereum {
 
   /// Add a listener to be triggered for only the next eventName event, at which time it will be removed.
   @JS("removeAllListeners")
-  external Future removeAllListeners(List<String> events);
+  external Future removeAllListeners(String? events);
 
   /// Return the number of listeners that are subscribed to event. If no event is provided, returns the total count of all events.
   @JS("listenerCount")
