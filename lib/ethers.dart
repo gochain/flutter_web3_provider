@@ -88,7 +88,7 @@ class Web3Provider extends Provider {
   external Signer getSigner();
 
   @JS("getBalance")
-  external Future getBalance(String address);
+  external Future<BigNumber> getBalance(String address);
 
   @JS("getNetwork")
   external Future<Network> getNetwork();
@@ -99,7 +99,7 @@ class JsonRpcProvider extends Provider {
   external JsonRpcProvider(String rpcUrl);
 
   @JS("getBalance")
-  external Future getBalance(String address);
+  external Future<BigNumber> getBalance(String address);
 }
 
 @JS("networks.Network")
@@ -144,6 +144,18 @@ class AbiCoder {
 @JS("BigNumber")
 class BigNumber {
   external static BigNumber from(String num);
+
+  external int toNumber();
+
+  external String toString();
+
+  external String toHexString();
+}
+
+extension BigNumberExtension on BigNumber {
+  BigInt get toBigInt => BigInt.parse(this.toString());
+
+  int get toInt => int.parse(this.toString());
 }
 
 @JS()
@@ -190,7 +202,7 @@ class Contract {
   external Future transfer(String to, String amount);
 
   @JS("balanceOf")
-  external Future balanceOf(String address);
+  external Future<BigNumber> balanceOf(String address);
 
   @JS("tokenURI")
   external Future tokenURI(BigNumber tokenID);
