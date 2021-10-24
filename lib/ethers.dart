@@ -92,6 +92,9 @@ class Web3Provider extends Provider {
 
   @JS("getNetwork")
   external Future<Network> getNetwork();
+  
+  @JS("getBlockNumber")
+  external Future<BigInt> getBlockNumber();
 }
 
 @JS("providers.JsonRpcProvider")
