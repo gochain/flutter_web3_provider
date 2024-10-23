@@ -41,10 +41,12 @@ RaisedButton(
 
 Add ethers.js to `web/index.html`.
 
-eg: 
-
-```
-<script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="application/javascript"></script>
+```html
+  <script type="module">
+    import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.min.js";
+    window.ethers = ethers
+    // Your code here...
+  </script>
 ```
 
 Import package:
