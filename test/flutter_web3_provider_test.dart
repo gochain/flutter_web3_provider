@@ -1,6 +1,4 @@
-import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_web3_provider/flutter_web3_provider.dart';
 
 void main() {
   // test('adds one to input values', () {

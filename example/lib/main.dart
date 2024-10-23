@@ -50,7 +50,7 @@ const erc20Abi = [
 const goUsdcAddress = '0x97a19aD887262d7Eca45515814cdeF75AcC4f713';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({this.title = "Home"});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -69,22 +69,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String selectedAddress;
-  Web3Provider web3;
-  TextEditingController _controller;
-  TextEditingController _verifyController;
-  Future balanceF;
-  Future usdcBalanceF;
+  String? selectedAddress;
+  BrowserProvider? web3;
+  TextEditingController _controller = TextEditingController();
+  TextEditingController _verifyController = TextEditingController();
+  Future? balanceF;
+  Future? usdcBalanceF;
 
   @override
   void initState() {
     super.initState();
     if (ethereum != null) {
-      web3 = Web3Provider(ethereum);
-      balanceF = promiseToFuture(web3.getBalance(ethereum.selectedAddress));
+      print("ethereum: ${ethereum}");
+      print("ethereum.selectedAddress: ${ethereum!.selectedAddress}");
+      web3 = BrowserProvider(ethereum!);
+      balanceF = promiseToFuture(web3!.getBalance(ethereum!.selectedAddress));
       var contract = Contract(goUsdcAddress, erc20Abi, web3);
       usdcBalanceF = promiseToFuture(
-          callMethod(contract, "balanceOf", [ethereum.selectedAddress]));
+          callMethod(contract, "balanceOf", [ethereum!.selectedAddress]));
     }
     _controller = TextEditingController();
     _verifyController = TextEditingController();
@@ -147,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             connectedStuff(),
           ],
@@ -168,14 +170,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: [
         (selectedAddress != null)
-            ? Text(selectedAddress)
-            : RaisedButton(
+            ? Text(selectedAddress!)
+            : ElevatedButton(
                 child: Text("Connect Wallet"),
                 onPressed: () async {
-                  var accounts = await promiseToFuture(ethereum
+                  var accounts = await promiseToFuture(ethereum!
                       .request(RequestParams(method: 'eth_requestAccounts')));
                   print(accounts);
-                  String se = ethereum.selectedAddress;
+                  String se = ethereum!.selectedAddress;
                   print("selectedAddress: $se");
                   setState(() {
                     selectedAddress = se;
@@ -214,11 +216,11 @@ class _MyHomePageState extends State<MyHomePage> {
             return Text("${d}");
           },
         ),
-        RaisedButton(
+        ElevatedButton(
           child: Text("Transfer \$0.01"),
           onPressed: () async {
             var contract = Contract(goUsdcAddress, erc20Abi, web3);
-            var contract2 = contract.connect(web3.getSigner());
+            var contract2 = contract.connect(await web3!.getSigner());
             try {
               // DEPRECATED:
               // var res = await promiseToFuture(contract2.transfer(
@@ -244,11 +246,15 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
         SizedBox(height: 10),
-        RaisedButton(
+        ElevatedButton(
           child: Text("Sign Message"),
           onPressed: () async {
-            var signature = await promiseToFuture(
-                web3.getSigner().signMessage("Sign this message"));
+            var signer = await promiseToFuture(web3!.getSigner());
+            print("signer: ${signer}");
+            // signer = await signer;
+            // print("signer: ${signer}");
+            var signature =
+                await promiseToFuture(signer.signMessage("Sign this message"));
             print(signature);
             setState(() {
               _controller.text = signature;
@@ -264,12 +270,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           controller: _controller,
         ),
-        RaisedButton(
+        ElevatedButton(
           child: Text("Verify Signature"),
           onPressed: () async {
-            var verified =
-                Utils.verifyMessage("Sign this message", _controller.text);
-            print(verified);
+            var verified = verifyMessage("Sign this message", _controller.text);
+            print("verified?: ${verified}");
             setState(() {
               _verifyController.text = verified;
             });

@@ -80,19 +80,19 @@ class Log {
   });
 }
 
-@JS("providers.Web3Provider")
-class Web3Provider extends Provider {
-  external Web3Provider(Ethereum eth);
+@JS("BrowserProvider")
+class BrowserProvider extends Provider {
+  external BrowserProvider(Ethereum eth);
 
   @JS("getSigner")
-  external Signer getSigner();
+  external Future<Signer> getSigner();
 
   @JS("getBalance")
   external Future<BigNumber> getBalance(String address);
 
   @JS("getNetwork")
   external Future<Network> getNetwork();
-  
+
   @JS("getBlockNumber")
   external Future<BigInt> getBlockNumber();
 }
@@ -123,9 +123,12 @@ class Signer {
   external Future signMessage(String message);
 }
 
+@JS("verifyMessage")
+external String verifyMessage(String hash, String sig);
+
 @JS("utils")
 class Utils {
-  external static String verifyMessage(var hash, var sig);
+  // external static String verifyMessage(var hash, var sig);
 
   external static String arrayify(var hash);
 

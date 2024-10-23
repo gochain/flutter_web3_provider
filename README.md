@@ -61,7 +61,7 @@ Then create an ethers provider:
 // For a read-only provider:
 var provider = JsonRpcProvider("https://rpc.gochain.io");
 // For a read-write provider (ie: metamask, trust wallet, etc)
-var web3 = Web3Provider(ethereum);
+var web3 = BrowserProvider(ethereum);
 ```
 
 Then you can do things like check balance and submit transactions, etc:
@@ -120,3 +120,10 @@ NOTES:
 * If you're using the human readable ABI's (ethers.js feature) like above, use `uint`, not `uint256` even if the real abi is a uint256.
 * There are some common functions on the Contract, but you can also call any method using `callMethod` like above.
  
+## Developers
+
+To publish:
+
+```sh
+make publish
+```

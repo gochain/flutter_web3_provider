@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({this.title="Home"}) ;
 
   final String title;
 
@@ -31,13 +31,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String selectedAddress;
+  String? selectedAddress;
 
   Future<void> init() async {
     var accounts = await promiseToFuture(
-        ethereum.request(RequestParams(method: 'eth_requestAccounts')));
+        ethereum!.request(RequestParams(method: 'eth_requestAccounts')));
     print(accounts);
-    String se = ethereum.selectedAddress;
+    String se = ethereum!.selectedAddress;
     print("selectedAddress: $se");
     setState(() {
       selectedAddress = se;
@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     print(typedData);
 
-    String signature = await promiseToFuture(ethereum.request(RequestParams(
+    String signature = await promiseToFuture(ethereum!.request(RequestParams(
         method: 'eth_signTypedData_v3', params: [selectedAddress, typedData])));
     print(signature);
     String r = signature.substring(0, 66);
