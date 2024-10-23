@@ -98,7 +98,7 @@ var usdcBalanceF = promiseToFuture(
           callMethod(contract, "balanceOf", [ethereum.selectedAddress]));
           
 // to make a write transaction, first get the signer (this will use metamask/wallet)
-contract = contract.connect(web3.getSigner()); // uses the connected wallet as signer
+contract = contract.connect(await promiseToFuture(web3.getSigner())); // uses the connected wallet as signer
 // then call the function:
 var res =
     await promiseToFuture(callMethod(contract, "transfer", [
